@@ -1,0 +1,19 @@
+{
+  "name": "chat-room-backend",
+  "version": "1.0.0",
+  "description": "Chat App with Socket",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
+  },
+  "author": "José Núñez Riveros",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "10.0.0",
+    "socket.io": "4.1.2",
+    "typescript": "4.3.5"
+  },
+  "devDependencies": {
+    "ts-node-dev": "1.1.8"
+  }
+}
