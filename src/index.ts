@@ -1,10 +1,20 @@
-import IO from "socket.io";
+import { createServer } from "http";
+import { Server, Socket } from "socket.io";
 
-const io = IO();
+import { SYSTEM } from "./config";
+
+console.log(SYSTEM);
+
+const httpServer = createServer();
+const io = new Server(httpServer);
+
+interface ISocket extends Socket {
+  username: string;
+}
 
 const DEFAULT_USERNAME = "anonymous";
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: any) => {
   console.log(`connect: ${socket.id}`);
 
   socket.username = DEFAULT_USERNAME;
@@ -14,9 +24,7 @@ io.on("connection", (socket) => {
     console.log(`disconnect: ${socket.id}`);
   });
 
-  socket.on("chat message", (content) => {
-    console.log(socket.username);
-
+  socket.on("chat message", (content: string) => {
     const data = { content, user: socket.username };
 
     io.emit("chat message", data);
@@ -30,20 +38,13 @@ io.on("connection", (socket) => {
     io.emit("user connected", user);
   });
 
-  socket.on("error", (err) => {
-    console.log("error ", err.message);
-    if (err && err.message === "unauthorized event") {
-      socket.disconnect();
-    }
-  });
-
   socket.on("writting", () => {
     socket.broadcast.emit("writting", socket.username);
   });
 });
 
-io.listen(4001, {
+io.listen(SYSTEM.PORT, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: SYSTEM.CORS,
   },
 });
