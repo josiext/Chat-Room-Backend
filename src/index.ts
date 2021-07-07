@@ -61,6 +61,8 @@ const io = new Server(server, {
   },
 });
 
+import { SYSTEM } from "./config";
+
 const DEFAULT_USERNAME = "anonymous";
 
 io.on("connection", (socket: any) => {
@@ -92,6 +94,6 @@ io.on("connection", (socket: any) => {
   });
 });
 
-server.listen(4005, () => {
-  console.log("listening on *:4005");
+server.listen(SYSTEM.PORT, () => {
+  console.log("listening on *:4005", SYSTEM.PORT);
 });
